@@ -13,35 +13,8 @@ class MainClass
             );
         dbConnection.Open();
 
-        int choice = 0;
-        Console.WriteLine("What do you want to do?");
-        choice = Convert.ToInt32(Console.ReadLine());
-
-
-        switch (choice)
-        {
-
-            case 0:
-
-                break;
-
-            case 1:
-                break;
-            
-
-
-        }
-
-
-
-
-
-        //ShowMetaInfo();
-        //insertValue();
-        //showAll();
-
-        //Segundo paso
-
+        int choice = numOption();
+        doSql(choice);
 
 
         dbConnection.Close();
@@ -56,6 +29,35 @@ class MainClass
 
 
 
+
+
+    //Methods
+    public static int numOption()
+    {
+
+        Console.WriteLine("Que opción quieres?\n0.Salir\n1.Nuevo\n2.Editar\n3.Borrar\n4.Consultar\n5.Listar");
+        return Convert.ToInt32(Console.ReadLine());
+
+    }
+
+    public static void doSql(int choice)
+    {
+        switch (choice)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
+    }
 
 
 
