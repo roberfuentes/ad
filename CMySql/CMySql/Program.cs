@@ -45,7 +45,7 @@ class MainClass
         return Convert.ToInt32(Console.ReadLine());
 
     }
-    //IdbDataParameter , parametername
+    //IdbDataParameter , parametername, Menu.Create.Add
     public static void doSql(int choice)
     {
         switch (choice)
