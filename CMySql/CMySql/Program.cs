@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
+using Serpis.Ad;
+
 
 
 class MainClass
@@ -13,8 +15,12 @@ class MainClass
             );
         dbConnection.Open();
 
-        int choice = numOption();
-        doSql(choice);
+
+        insertValue();
+        showAll();
+        ShowMetaInfo();
+        /*int choice = numOption();
+        doSql(choice);*/
 
 
         dbConnection.Close();
@@ -32,19 +38,20 @@ class MainClass
 
 
     //Methods
-    public static int numOption()
+    /*public static int numOption()
     {
 
         Console.WriteLine("Que opción quieres?\n0.Salir\n1.Nuevo\n2.Editar\n3.Borrar\n4.Consultar\n5.Listar");
         return Convert.ToInt32(Console.ReadLine());
 
     }
-
+    //IdbDataParameter , parametername
     public static void doSql(int choice)
     {
         switch (choice)
         {
             case 0:
+                InsertValues();
                 break;
             case 1:
                 break;
@@ -57,6 +64,11 @@ class MainClass
             case 5:
                 break;
         }
+    }*/
+
+    public static void InsertValues()
+    {
+
     }
 
 
@@ -84,10 +96,14 @@ class MainClass
     public static void insertValue()
     {
         IDbCommand dbCommand = dbConnection.CreateCommand();
-        string nombre = "nuevo" + DateTime.Now;
-        dbCommand.CommandText = String.Format("insert into categoria (nombre) values ('{0}')", nombre);
+        Console.Write("Nombre");
+        string nombre = Console.ReadLine();
+        dbCommand.CommandText = "insert into categoria (nombre) values (@nombre)";
+        DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
+
         dbCommand.ExecuteNonQuery();
     }
+
 
     public static void ShowMetaInfo()
     {

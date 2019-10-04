@@ -2,14 +2,14 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{4B9D6208-D6AA-46CF-B835-300B4884767D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CMySql</RootNamespace>
-    <AssemblyName>CMySql</AssemblyName>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B3A1E08-F373-4BBC-992F-FB52BE0D8249}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CSerpisAd</RootNamespace>
+    <AssemblyName>CSerpisAd</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -17,33 +17,22 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\mysqldata\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Renci.SshNet">
-      <HintPath>..\..\mysqldata\Renci.SshNet.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="CSerpisAd">
-      <HintPath>..\..\CSerpisAd\CSerpisAd\bin\Debug\CSerpisAd.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbCommandHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
