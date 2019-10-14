@@ -12,7 +12,7 @@ namespace CReflexion
             Categoria c = new Categoria(5, "Cat 5");
             //Console.WriteLine("c.Id={0} c.Nombre={1}", c.Id, c.Nombre);
 
-            show(c, "Id", "Nombre");
+            show(c, "Nombre");
         }
 
         private static void show(object obj, params string[] propertyNames)
