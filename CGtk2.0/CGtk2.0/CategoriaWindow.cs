@@ -5,12 +5,18 @@ namespace CGtk2
 {
     public partial class CategoriaWindow : Gtk.Window
     {
+        public static string name = "";
         public CategoriaWindow() :
                 base(Gtk.WindowType.Toplevel)
+
         {
             this.Build();
 
-            buttonAceptar.Clicked += new EventHandler(SendVariable);
+            buttonAceptar.Clicked += (sender, e) => CategoriaWindow.SendVariable(entryName.Text);
+            /*treeView.AppendColumn("id", new CellRendererText(), "text", 0);
+            treeView.AppendColumn("nombre", new CellRendererText(), "text", 1);
+            ListStore listStore = new ListStore(typeof(ulong), typeof(string));
+            MainWindow.ShowAll(treeView, listStore);*/
 
 
 
@@ -18,12 +24,16 @@ namespace CGtk2
         }
 
 
-        protected void SendVariable(Object sender, EventArgs e)
+        public static void SendVariable(String e)
         {
-            if(entryName.Text != null)
+            Console.WriteLine(e);
+            if(e != null)
             {
-                Name = entryName.Text;
+                Console.WriteLine("sending");
+                name = e;
+
             }
+
         }
         /*public static void InsertValue()
         {

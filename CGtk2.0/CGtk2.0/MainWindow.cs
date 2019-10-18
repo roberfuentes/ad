@@ -2,11 +2,14 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using Gtk;
+using Serpis.Ad;
 
 using CGtk2;
 
 public partial class MainWindow : Gtk.Window
 {
+
+    public static String name = "1"; 
     private static IDbConnection dbConnection;
     public MainWindow() : base(Gtk.WindowType.Toplevel)
     {
@@ -20,6 +23,7 @@ public partial class MainWindow : Gtk.Window
         treeView.AppendColumn("nombre", new CellRendererText(), "text", 1);
         ListStore listStore = new ListStore(typeof(ulong), typeof(string));
         ShowAll(treeView, listStore);
+
 
 
 
@@ -46,6 +50,17 @@ public partial class MainWindow : Gtk.Window
         bool hasSelectedRows = treeView.Selection.CountSelectedRows() > 0;
         editAction.Sensitive = hasSelectedRows;
         deleteAction.Sensitive = hasSelectedRows;
+        CategoriaWindow cg = new CategoriaWindow();
+        Console.WriteLine("dsdgsdgasg");
+        name = CategoriaWindow.name;
+        Console.WriteLine(name);
+        if (name != "")
+        {
+            insertValue(name);
+            name  = "";
+        }
+
+
     }
 
     public static void ShowAll(TreeView treeView, ListStore listStore)
@@ -65,4 +80,15 @@ public partial class MainWindow : Gtk.Window
 
         dataReader.Close();
     }
+
+    public static void insertValue(String name)
+    {
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        string nombre = name;
+        dbCommand.CommandText = "insert into categoria (nombre) values (@nombre)";
+        DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
+
+        dbCommand.ExecuteNonQuery();
+    }
+
 }
