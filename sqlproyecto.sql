@@ -13,13 +13,13 @@ create table item (
 
 create table customer (
   id serial primary key,
-  name varchar(50) not null unique
+  name varchar(50) not null
 );
 
-create table `order` (
+create table orders (
   id serial primary key,
   customer_id bigint unsigned not null,
-  order_date datetime not null unique,
+  order_date datetime not null,
   cost numeric(10,2) not null,
   foreign key (customer_id) references customer (id)
 );
@@ -31,6 +31,6 @@ create table orderline (
   price numeric(10,2) not null,
   quantity numeric(10,2) not null,
   cost numeric(10,2) not null,
-  foreign key (order_id) references `order` (id) on delete cascade,
+  foreign key (order_id) references orders (id) on delete cascade,
   foreign key (item_id) references item (id)
 );
