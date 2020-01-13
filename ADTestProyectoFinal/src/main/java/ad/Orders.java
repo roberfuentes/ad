@@ -6,17 +6,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name="Order")
-public class Order {
+@Entity(name="Orders")
+public class Orders {
 	
+	
+	
+	public Orders(int id, String order_date, float cost, Customer customer_id) {
+		this.id = id;
+		this.order_date = order_date;
+		this.cost = cost;
+		this.customer_id = customer_id;
+	}
+
 	@Id
 	private int id;
 	
 	@Column
-	private int datetime;
+	private String order_date;
 	
 	@Column
-	private int cost;
+	private float cost;
 
 	@ManyToOne
 	@JoinColumn(name="customer_id")
@@ -31,22 +40,22 @@ public class Order {
 	}
 
 
-	public int getDatetime() {
-		return datetime;
+
+	public String getOrder_date() {
+		return order_date;
 	}
 
-	public void setDatetime(int datetime) {
-		this.datetime = datetime;
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
 	}
 
-	public int getCost() {
+	public float getCost() {
 		return cost;
 	}
 
-	public void setCost(int cost) {
+	public void setCost(float cost) {
 		this.cost = cost;
 	}
-	
 
 	public Customer getCustomer_id() {
 		return customer_id;
@@ -55,10 +64,5 @@ public class Order {
 	public void setCustomer_id(Customer customer_id) {
 		this.customer_id = customer_id;
 	}
-	
-	
-	
-	
-	
 
 }

@@ -27,14 +27,14 @@ public class Customer {
 	
 	
 	@OneToMany(mappedBy = "customer_id", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Order> orders = new ArrayList<Order>(); 
+	private List<Orders> orders = new ArrayList<Orders>(); 
 	
 	
-	public List<Order> getOrders() {
+	public List<Orders> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
 	}
 
@@ -61,12 +61,12 @@ public class Customer {
 	}
 	
 	
-	public void addOrder(Order order) {
+	public void addOrder(Orders order) {
 		orders.add(order);
 		order.setCustomer_id(this);
 	}
 	
-	public void removeOrder(Order order) {
+	public void removeOrder(Orders order) {
 		orders.remove(order);
 		order.setCustomer_id(null);
 	}
