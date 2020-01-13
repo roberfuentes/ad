@@ -16,6 +16,9 @@ public class Customer {
 	@Id
 	private int id;
 	
+	public Customer() {
+		//Default
+	}
 	
 	public Customer(int id, String name) {
 		this.id = id;
@@ -71,6 +74,12 @@ public class Customer {
 		order.setCustomer_id(null);
 	}
 	
+	
+	public void showPedidos() {
+		for(Orders order: orders) {
+			System.out.println(order);
+		}
+	}
 	
 	
 

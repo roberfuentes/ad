@@ -24,9 +24,6 @@ public class main {
  		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ad.ADTestProyectoFinal");
 
  		
- 		Customer customer = new Customer(4, "TestCustomer2");
- 		Orders order = new Orders(1, LocalDateTime.now().toString(), 20.0f, customer);
-
  		
  		
  		
@@ -35,10 +32,41 @@ public class main {
  		EntityManager em = entityManagerFactory.createEntityManager();
  		
  		em.getTransaction().begin();
+ 		Customer customer1 = em.find(Customer.class, 1);
+ 		Customer customer2 = em.find(Customer.class, 2);
+ 		Customer customer3 = em.find(Customer.class, 3);
+ 		Customer customer4 = em.find(Customer.class, 4);
+ 		//Customer customer = new Customer(4, "TestCustomer2");
  		
- 		em.persist(customer);
- 		em.persist(order);
+ 		/*Orders order1 = new Orders(4, LocalDateTime.now().toString(), 24.0f, customer1);
+ 		Orders order2 = new Orders(5, LocalDateTime.now().toString(), 25.0f, customer2);
+ 		Orders order3 = new Orders(6, LocalDateTime.now().toString(), 26.0f, customer3);
+ 		Orders order4 = new Orders(7, LocalDateTime.now().toString(), 27.0f, customer2);*/
+ 		
+ 		Orders order1 = em.find(Orders.class, 1);
+ 		
+ 		
+ 		//customer4.showPedidos();
+ 		
+ 		//em.persist(customer3);
+ 		/*em.persist(order1);
+ 		em.persist(order2);
+ 		em.persist(order3);
+ 		em.persist(order4);*/
+ 		
+ 		
+ 		//HERE
+ 		
+ 		Item item1 = new Item(1, "Patatas", 20.0f);
+ 		
+ 		OrderLine orderline1 = new OrderLine(1, order1, item1, item1.getPrice(), 1, item1.getPrice()*1);
+ 		order1.orderlines.add(orderline1);
+ 		
+ 		em.persist(item1);
+ 		em.persist(order1);
+ 		em.persist(orderline1);
  		em.getTransaction().commit();
+ 		
  		
  		
  		
