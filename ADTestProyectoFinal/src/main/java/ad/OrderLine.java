@@ -12,6 +12,11 @@ public class OrderLine {
 	
 	
 	
+	public OrderLine() {
+		super();
+	}
+
+
 	public OrderLine(int id, Orders order_id, Item item_id, float price, int quantity, float cost) {
 		this.id = id;
 		this.order_id = order_id;
@@ -30,10 +35,13 @@ public class OrderLine {
 	private Orders order_id;
 	
 	
-	//@OneToOne
+	@OneToOne
+	@JoinColumn(name="item_id")
 	private Item item_id;
 	
-	
+
+
+
 	@Column(name="price")
 	private float price;
 	
@@ -91,12 +99,24 @@ public class OrderLine {
 		this.quantity = quantity;
 	}
 
+	
+	public Item getItem_id() {
+		return item_id;
+	}
+
+
+	public void setItem_id(Item item_id) {
+		this.item_id = item_id;
+	}
+
 
 	@Override
 	public String toString() {
-		return "OrderLine [id=" + id + ", order_id=" + order_id + ", price=" + price + ", quantity=" + quantity
-				+ ", cost=" + cost + "]";
+		return "OrderLine [id=" + id + ", order_id=" + order_id + ", item_id=" + item_id + ", price=" + price
+				+ ", quantity=" + quantity + ", cost=" + cost + "]";
 	}
+
+
 	
 	
 	

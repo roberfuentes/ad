@@ -91,9 +91,12 @@ public class Orders {
 	}
 	
 	public void getTotal() {
+		int total = 0;
 		for(OrderLine orderline: orderlines) {
 			System.out.println(orderline.getPrice());
+			total += orderline.getPrice();
 		}
+		System.out.println(total);
 	}
 	
 	

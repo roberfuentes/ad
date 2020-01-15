@@ -43,7 +43,6 @@ public class main {
  		Orders order3 = new Orders(6, LocalDateTime.now().toString(), 26.0f, customer3);
  		Orders order4 = new Orders(7, LocalDateTime.now().toString(), 27.0f, customer2);*/
  		
- 		Orders order1 = em.find(Orders.class, 1);
  		
  		
  		//customer4.showPedidos();
@@ -56,16 +55,20 @@ public class main {
  		
  		
  		//HERE
+ 		Orders order1 = em.find(Orders.class, 1);
+ 		//Item item1 = new Item(1, "Patatas", 20.0f);
+ 		//Item item2 = new Item(2, "Pizza", 50.0f);
  		
- 		Item item1 = new Item(1, "Patatas", 20.0f);
+ 		//OrderLine orderline1 = new OrderLine(2, order1, item2, item2.getPrice(), 1, item2.getPrice()*1);
+ 		//order1.orderlines.add(orderline1);
  		
- 		OrderLine orderline1 = new OrderLine(1, order1, item1, item1.getPrice(), 1, item1.getPrice()*1);
- 		order1.orderlines.add(orderline1);
+ 		//em.persist(item2);
  		
- 		em.persist(item1);
- 		em.persist(order1);
- 		em.persist(orderline1);
- 		em.getTransaction().commit();
+ 		//em.persist(order1);
+ 		//em.persist(orderline1);
+ 		order1.getTotal();
+ 		
+ 		//em.getTransaction().commit();
  		
  		
  		
@@ -83,6 +86,7 @@ public class main {
 	       resultList.forEach(System.out::println);
 	       em.close();
 	}*/
+	
 	
 	
 
