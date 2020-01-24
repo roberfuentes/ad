@@ -84,11 +84,6 @@ public class Orders {
 	public void setCustomer_id(Customer customer_id) {
 		this.customer_id = customer_id;
 	}
-	@Override
-	public String toString() {
-		return "Orders [id=" + id + ", order_date=" + order_date + ", cost=" + cost + ", customer_id=" + customer_id
-				+ ", orderlines=" + orderlines + "]";
-	}
 	
 	public void getTotal() {
 		int total = 0;
@@ -98,6 +93,15 @@ public class Orders {
 		}
 		System.out.println(total);
 	}
+
+	@Override
+	public String toString() {
+		return "Orders: id=" + id + ", order_date=" + order_date + ", cost=" + cost;
+	}
+
+	
+	
+	
 	
 	
 

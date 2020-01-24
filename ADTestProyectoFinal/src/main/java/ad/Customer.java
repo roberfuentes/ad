@@ -3,6 +3,7 @@ package ad;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,9 @@ public class Customer {
 	
 	public Customer() {
 		//Default
+	}
+	public Customer(String name) {
+		this.name = name;
 	}
 	
 	public Customer(int id, String name) {
@@ -58,12 +62,13 @@ public class Customer {
 	}
 
 
+
+	
+	
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", name=" + name + "]";
+		return "Customer [id=" + id + ", name=" + name + ", orders=" + orders + "]";
 	}
-	
-	
 	public void addOrder(Orders order) {
 		orders.add(order);
 		order.setCustomer_id(this);
@@ -79,6 +84,16 @@ public class Customer {
 		for(Orders order: orders) {
 			System.out.println(order);
 		}
+	}
+	
+	public Customer addCustomer() {
+		Scanner sn = new Scanner(System.in);
+		System.out.println("Give me a name");
+		String name = sn.nextLine();
+		
+		Customer customer = new Customer(name);
+		return customer;
+		
 	}
 	
 	
