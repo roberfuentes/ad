@@ -3,6 +3,7 @@ package ad.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import ad.Customer;
 import ad.Item;
@@ -42,8 +43,12 @@ public class ItemDAOImpl implements ItemDAO{
 
 	@Override
 	public Item getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Item item = em.find(Item.class, id);
+		if(item == null) {
+			throw new EntityNotFoundException("Can't find Customer for ID" + id);
+		}
+		return item;
+		
 	}
 
 	

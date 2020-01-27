@@ -8,14 +8,14 @@ import java.util.Scanner;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity(name="Customer")
 public class Customer {
-	
-	@Id
-	private int id;
+
 	
 	public Customer() {
 		//Default
@@ -28,7 +28,11 @@ public class Customer {
 		this.id = id;
 		this.name = name;
 	}
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
 	@Column(name="name")
 	private String name;
 	

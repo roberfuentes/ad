@@ -2,6 +2,8 @@ package ad;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,9 +27,17 @@ public class OrderLine {
 		this.quantity = quantity;
 		this.cost = cost;
 	}
+	public OrderLine(Orders order_id, Item item_id, float price, int quantity, float cost) {
+		this.order_id = order_id;
+		this.item_id = item_id;
+		this.price = price;
+		this.quantity = quantity;
+		this.cost = cost;
+	}
 
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne

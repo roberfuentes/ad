@@ -2,6 +2,8 @@ package ad;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,14 +16,15 @@ public class Item {
 		super();
 	}
 
-	public Item(int id, String name, float price) {
+	public Item(int id, String name, float price, Category category_id) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		//this.category_id = category_id;
+		this.category_id = category_id;
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name="name")
@@ -30,9 +33,9 @@ public class Item {
 	@Column(name="price")
 	private float price;
 
-	/*@ManyToOne
+	@ManyToOne
 	@JoinColumn(name="category_id")
-	private Category category_id;*/
+	private Category category_id;
 
 	public int getId() {
 		return id;
@@ -58,5 +61,11 @@ public class Item {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", price=" + price + "]";
+	}
+	
+	
 	
 }

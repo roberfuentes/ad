@@ -27,14 +27,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 			em.getTransaction().begin();
 			em.persist(t);
 			em.getTransaction().commit();;
-			System.out.println("Se ha guardado el usuario" + t.getName() +  " en la base de datos");
+			System.out.println("Se ha guardado el usuario " + t.getName() +  " en la base de datos");
 		}catch(Exception e) {
 			em.getTransaction().rollback();
 			System.out.println("No se ha guardado el usuario en la base de datos");
 		}
-		
-		
-		
 	}
 
 	@Override
