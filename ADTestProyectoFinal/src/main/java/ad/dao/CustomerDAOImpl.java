@@ -60,8 +60,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 			em.getTransaction().rollback();
 			System.out.println("The customer coudln't be removed");
 		}
-		
-		
 	}
 
 	@Override

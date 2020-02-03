@@ -20,6 +20,9 @@ public class Orders {
 	public Orders() {
 		//DEFAULT
 	}
+	public Orders(String order_date) {
+		this.order_date = order_date;
+	}
 	
 	public Orders(String order_date, float cost, Customer customer_id) {
 		this.order_date = order_date;
