@@ -3,6 +3,7 @@ package ad.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import ad.OrderLine;
 import ad.Orders;
@@ -19,13 +20,20 @@ public class OrderLineDAOImpl implements OrderLineDAO{
 
 	@Override
 	public void insert(OrderLine t) {
-		// TODO Auto-generated method stub
-		
+		em.getTransaction().begin();
+		em.persist(t);
+		em.getTransaction().commit();	
 	}
 
 	@Override
 	public void update(OrderLine t) {
-		// TODO Auto-generated method stub
+		try {
+			em.getTransaction().begin();
+			em.merge(t);
+			em.getTransaction().commit();	
+		}catch(Exception e) {
+			System.out.println("The order couldn't be updated");
+		}
 		
 	}
 
@@ -45,14 +53,18 @@ public class OrderLineDAOImpl implements OrderLineDAO{
 
 	@Override
 	public List<OrderLine> getTFromOrder(int id) {
-		List<OrderLine> listOrders = (List<OrderLine>)em.createQuery("FROM OrderLine where where order="+id).getResultList();
+		@SuppressWarnings("unchecked")
+		List<OrderLine> listOrders = (List<OrderLine>)em.createQuery("FROM OrderLine where order_id="+id).getResultList();
 		return listOrders;
 	}
 
 	@Override
 	public OrderLine getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		OrderLine orderLine= em.find(OrderLine.class, id);
+		if(orderLine== null) {
+			throw new EntityNotFoundException("Can't find Customer for ID" + id);
+		}
+		return orderLine;
 	}
 
 	@Override

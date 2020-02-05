@@ -23,7 +23,10 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public void insert(Orders t) {
-		// TODO Auto-generated method stub
+		em.getTransaction().begin();
+		em.persist(t);
+		em.getTransaction().commit();
+		
 		
 	}
 
@@ -31,10 +34,15 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public void update(Orders t) {
-		// TODO Auto-generated method stub
 		
+		try {
+			em.getTransaction().begin();
+			em.merge(t);
+			em.getTransaction().commit();	
+		}catch(Exception e) {
+			System.out.println("The order couldn't be updated");
+		}
 	}
-
 
 
 	@Override
@@ -55,6 +63,7 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public List<Orders> getTFromCustomer(int id) {
+		@SuppressWarnings("unchecked")
 		List<Orders> listOrders = (List<Orders>)em.createQuery("FROM Orders where customer_id ="+id).getResultList();
 		return listOrders;
 	}

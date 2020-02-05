@@ -12,13 +12,15 @@ import ad.OrderLine;
 import ad.Orders;
 import ad.dao.CustomerDAOImpl;
 import ad.dao.ItemDAOImpl;
+import ad.dao.OrderLineDAOImpl;
 import ad.dao.OrdersDAOImpl;
 import ad.app.CustomerMethods;
 public class OrderMethods {
 	
 	static EntityManager em;
-	static Scanner sn = new Scanner(System.in);
-	CustomerMethods customer = new CustomerMethods(em);
+	private final static Scanner sn = new Scanner(System.in);
+	private final static CustomerMethods customer = new CustomerMethods(em);
+	private final static ItemMethods item = new ItemMethods(em);
 	
 	public OrderMethods(EntityManager em) {
 		this.em = em;
@@ -40,7 +42,9 @@ public class OrderMethods {
 	public static void insertOrder() throws InterruptedException {
 		System.out.println("\t\t");
 		//VARIABLES DAO
+		OrdersDAOImpl daoOrder = new OrdersDAOImpl(em);
 		CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
 		ItemDAOImpl daoItem = new ItemDAOImpl(em);
 		
 		//VARIABLES OBJECT
@@ -65,7 +69,7 @@ public class OrderMethods {
 		//Get Item to buy
 		while(true) {
 			//Listar articulos sin continuar
-			main.listItems(false);
+			item.listItems(false);
 			System.out.println("Give me the id of the item");
 			pickIdItem = sn.nextInt();
 			if(pickIdItem==0) {
@@ -80,11 +84,12 @@ public class OrderMethods {
 			orderline = new OrderLine(order, item, item.getPrice(), quantity, item.getPrice()*quantity);
 			total += item.getPrice() * quantity;
 			System.out.println(orderline.toString());
-			System.out.println(total);
+			System.out.println("Subtotal:" +total);
 			em.persist(orderline);
 		}
 		order.setCost(total);
-				
+		
+		daoOrder.insert(order);
 		em.getTransaction().begin();
 		em.getTransaction().commit();
 		
@@ -98,8 +103,11 @@ public class OrderMethods {
 	}
 	
 	public static void updateOrder() {
+		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
 		
 	}
+	
+	
 	public static void lineOrdersOrders() {
 		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
 		

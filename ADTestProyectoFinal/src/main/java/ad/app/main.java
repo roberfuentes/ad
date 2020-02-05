@@ -31,6 +31,11 @@ public class main {
 	final static EntityManager em = entityManagerFactory.createEntityManager();
 	static int code =-1;
 
+	private final static CustomerMethods customer = new CustomerMethods(em);
+	private final static OrderMethods order = new OrderMethods(em);
+	private final static ItemMethods item = new ItemMethods(em);
+
+
 
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -64,7 +69,6 @@ public class main {
 
 	public static void subSwitchCustomer() throws InterruptedException {
 		int subCode = -1;
-		CustomerMethods customer = new CustomerMethods(em);
 		System.out.println("Customer table, what do you want to do?");
 		System.out.println("");
 		System.out.println("1.Insert a new customer");
@@ -97,7 +101,6 @@ public class main {
 	}
 	public static void subSwitchOrder() throws InterruptedException {
 		int subCode = -1;
-		OrderMethods order = new OrderMethods(em);
 		System.out.println("Customer table, what do you want to do?");
 		System.out.println("");
 		System.out.println("1.Insert a new order");
@@ -105,7 +108,10 @@ public class main {
 		System.out.println("3.Update an order");
 		System.out.println("4.Look a list of orders");
 		System.out.println("5.Look at orders of a customer");
-		System.out.println("6.Look for orders that contain an item");
+		System.out.println("6.List orderlines of an order");
+		System.out.println("7.Update an orderline");
+		System.out.println("8.Remove an orderline");
+		System.out.println("10.Look for orders that contain an item");
 		subCode = sn.nextInt();
 		switch(subCode) {
 			case 1:
@@ -123,60 +129,21 @@ public class main {
 				break;
 			case 5:
 				order.insertOrder();
+				break;
+			case 6:
+				OrderLineMethods.listOrderLine(true);
+				break;
+			case 7:
+				OrderLineMethods.updateOrderLine();
+				break;
+			case 8:
+				OrderLineMethods.removeOrderLine();
+				break;
+
 		}
 	}
 	
-	//ORDERLINE METHODS
-	
-	
-	
-	//ITEM METHODS
-	public static void listItems(boolean flagContinue) {
-		System.out.println("\t");
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		List<Item> itemList = daoItem.getT();
-		for(Item item:itemList) {
-			System.out.println(item.toString());
-		}
-		
-		System.out.println("\t");
-		if(flagContinue)
-			askContinue();
-	}
-	
-	public static Item getById(int id) {
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		Item item = daoItem.getById(id);
-		return item;
-	}
-	public static void listItemsWithoutContinue() {
-		System.out.println("\t");
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		List<Item> itemList = daoItem.getT();
-		for(Item item:itemList) {
-			System.out.println(item.toString());
-		}
-		
-		System.out.println("\t");
-	}
-	
-	
-	
-	
-	
-	//ORDER LINE
-	public static void listOrderLine(int id) {
-		System.out.println("\t");
-		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
-		
-		List<OrderLine> orderLineList = daoOrderLine.getTFromOrder(id);
-		for(OrderLine orderLine:orderLineList) {
-			System.out.println(orderLine.toString());
-		}
-		System.out.println("\t");
-		askContinue();
-		
-	}
+
 	
 	
 	public static void askContinue() {
