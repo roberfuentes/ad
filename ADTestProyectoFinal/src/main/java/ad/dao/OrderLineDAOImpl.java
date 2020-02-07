@@ -54,7 +54,8 @@ public class OrderLineDAOImpl implements OrderLineDAO{
 	@Override
 	public List<OrderLine> getTFromOrder(int id) {
 		@SuppressWarnings("unchecked")
-		List<OrderLine> listOrders = (List<OrderLine>)em.createQuery("FROM OrderLine where order_id="+id).getResultList();
+		List<OrderLine> listOrders = (List<OrderLine>)em.createQuery("FROM orderline where order_id="+id).getResultList();
+		System.out.println(listOrders);
 		return listOrders;
 	}
 

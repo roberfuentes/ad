@@ -63,9 +63,14 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public List<Orders> getTFromCustomer(int id) {
+
+		
 		@SuppressWarnings("unchecked")
-		List<Orders> listOrders = (List<Orders>)em.createQuery("FROM Orders where customer_id ="+id).getResultList();
+		List<Orders> listOrders= (List<Orders>)em.createQuery("SELECT o FROM orders o WHERE o.customer_id=6").getResultList();
+		//List<Orders> listOrders = (List<Orders>)em.createQuery("SELECT o FROM orders o WHERE customer_id = :custid", Orders.class).setParameter("custid", 6).getResultList();
+
 		return listOrders;
+		
 	}
 
 

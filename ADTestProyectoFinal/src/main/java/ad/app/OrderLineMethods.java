@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.persistence.EntityManager;
 
 import ad.OrderLine;
+import ad.Orders;
 import ad.dao.OrderLineDAOImpl;
 
 public class OrderLineMethods {
@@ -23,11 +24,12 @@ public class OrderLineMethods {
 		System.out.println("\t");
 		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
 		
-		System.out.println("Give me the id of the order");
+		System.out.println("Give me the id of the customer");
 		int id = sn.nextInt();
 		
+		List<OrderLine> orderLineList = daoOrderLine.getTFromOrder(id);
 		
-		List<OrderLine> orderLineList = daoOrderLine.getTFromOrder(13);
+		
 		for(OrderLine orderLine:orderLineList) {
 			System.out.println(orderLine.toString());
 		}
@@ -42,6 +44,14 @@ public class OrderLineMethods {
 
 	public static void updateOrderLine() {
 		listOrderLine(false);
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
+		
+		
+		
+		
+		
+		//daoOrderLine.update(t);
+		
 		
 		
 		

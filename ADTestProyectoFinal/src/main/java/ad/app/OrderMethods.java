@@ -118,6 +118,7 @@ public class OrderMethods {
 		
 		List<Orders> orders = daoOrders.getTFromCustomer(id);
 		
+		System.out.println("");
 		for(Orders order : orders) {
 			if(checkUser==0) {
 				CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
