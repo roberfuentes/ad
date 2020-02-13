@@ -38,8 +38,16 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public void update(Orders t) {
-		// TODO Auto-generated method stub
-		
+		try {
+			em.getTransaction().begin();
+			em.merge(t);
+			em.getTransaction().commit();
+			System.out.println("Updated");
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("Couldn't be updated");
+		}
+				
 	}
 
 
@@ -82,8 +90,8 @@ public class OrdersDAOImpl implements OrdersDAO{
 
 	@Override
 	public List<Orders> getT() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Orders> orders = (List<Orders>) em.createQuery("FROM Orders").getResultList();
+		return orders;
 	}
 
 

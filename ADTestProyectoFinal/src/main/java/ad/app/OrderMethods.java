@@ -97,18 +97,12 @@ public class OrderMethods {
 		daoOrder.insert(order);
 		em.getTransaction().begin();
 		em.getTransaction().commit();
-		
-		
-
-		
-		//add orderline
- 		//OrderLine orderline = new OrderLine(2, order1, item2, item2.getPrice(), 1, item2.getPrice()*1);
-		//askContinue();
-		
 	}
 	
 	public static void updateOrder() {
 		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
+		List<OrderLine> orderLines = getListOrderLine();
 		
 		System.out.println("What order do you want to update?");
 		listOrders(false);
@@ -116,46 +110,71 @@ public class OrderMethods {
 		
 		Orders order = daoOrders.getById(id);
 		
-		System.out.println("Do you want to change the id to other customer?(y/n)");
+		System.out.println("Do you want to change the id to other order?(y/n)");
 		String answer =sn.next();
 		if(answer.equalsIgnoreCase("y")) {
-			System.out.println("Give me the id of the customer you want to change to");
+			System.out.println("Give me the id of the order you want to change to");
 			int custId = sn.nextInt();
 			order.setId(custId);
+			daoOrders.update(order);
+		}else {
+			System.out.println("DIdn't update");
 		}
-		daoOrders.update(order);	
+		
+		System.out.println("Do you want to update the price?(y/n)");
+		answer = sn.next();
+		if(answer.equalsIgnoreCase("y")) {
+			int restToOrder=0;
+			while(true) {
+				int tempVariable = 0;
+				lineOrdersOrders(id);
+				System.out.println("What orderline do you want to update?");
+				int orderLineID = sn.nextInt();
+				if(orderLineID == 0) {
+					break;
+				}
+				OrderLine orderLine = daoOrderLine.getById(orderLineID);
+				System.out.println("Do you want to change the quantity? (y/n)");
+				answer = sn.next();
+				if(answer.equalsIgnoreCase("y")) {
+					System.out.println("How many do you want?");
+					int quantity = sn.nextInt();
+					orderLine.setQuantity(quantity);
+					float cost =  quantity*orderLine.getPrice();
+					orderLine.setCost(cost);
+					restToOrder += cost;
+					daoOrderLine.update(orderLine);
+				}
+			}
+			
+		}
+		float orderCost = 0;
+		for(OrderLine oLine:orderLines) {
+			if(oLine.getOrder_id().getId() == id) {
+				orderCost += oLine.getCost();
+			}
+		}
+		order.setCost(orderCost);
+		daoOrders.update(order);
+		System.out.println("Updated order");
+			
 	}
 	
 	
-	public static void lineOrdersOrders() {
-		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
-		
-		int checkUser = 0;
-		
-		System.out.println("Give me the id of the customer");
-		int id = sn.nextInt();
-		
-		List<Orders> orders = daoOrders.getTFromCustomer(id);
-		
-		System.out.println("");
-		for(Orders order : orders) {
-			if(checkUser==0) {
-				CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
-				Customer customer = daoCustomer.getById(id);
-				System.out.println("The next orders are from: " + customer.getName() + " with the id = " +customer.getId() );
-				System.out.println(order.toString());
-				checkUser = -1;
-				
-			}else {
-				System.out.println(order.toString());	
+	public static void lineOrdersOrders(int order_id) {
+		List<OrderLine> orderLines = getListOrderLine();
+		for(OrderLine orderLine:orderLines) {
+			if(orderLine.getOrder_id().getId() == order_id) {
+				System.out.println("\t"+orderLine.toString());
 			}
 		}
-		main.askContinue();
+		
 	}
 	
 	public static void removeOrder() {
 		OrdersDAOImpl daoOrders= new OrdersDAOImpl(em);
 		System.out.println("Give me the id of the order");
+		listOrders(false);
 		int id = sn.nextInt();
 		Orders order= daoOrders.getById(id);
 		System.out.println("Are you sure you want to remove the order with the next data(Y/N):\n" 
@@ -174,6 +193,25 @@ public class OrderMethods {
 		for(Item item:itemList) {
 			System.out.println(item.toString());
 		}
+		
+
 	}
+	//System.out.println("\t"+order.getId()+". Cost:" + order.getCost() + ", Data:" + order.getOrder_date() + ", FROM:"+order.getCustomer_id());
+
+	
+	public static List<Orders> getListOrders() {
+		OrdersDAOImpl daoOrders= new OrdersDAOImpl(em);
+		List<Orders> orders= daoOrders.getT();
+		return orders;
+	}
+	
+
+	public static List<OrderLine> getListOrderLine(){
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
+		List<OrderLine> orderLines = daoOrderLine.getT();
+		return orderLines;
+	}
+	
+	
 	
 }

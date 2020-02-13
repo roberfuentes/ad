@@ -3,6 +3,7 @@ package ad.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import ad.OrderLine;
 import ad.Orders;
@@ -51,14 +52,18 @@ public class OrderLineDAOImpl implements OrderLineDAO{
 
 	@Override
 	public OrderLine getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		OrderLine orderLine= em.find(OrderLine.class, id);
+		if(orderLine== null) {
+			throw new EntityNotFoundException("Can't find Customer for ID" + id);
+		}
+		return orderLine;
 	}
 
 	@Override
 	public List<OrderLine> getT() {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrderLine> listOrders = (List<OrderLine>)em.createQuery("FROM OrderLine").getResultList();
+		return listOrders;
+		
 	}
 
 }

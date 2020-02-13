@@ -112,7 +112,6 @@ public class main {
 		System.out.println("2.Update an order");
 		System.out.println("3.Remove an order");
 		System.out.println("4.Look a list of orders");
-		System.out.println("5.Look at orders of a customer");
 		
 		subCode = sn.nextInt();
 		switch(subCode) {
@@ -120,17 +119,14 @@ public class main {
 				order.insertOrder();
 				break;
 			case 2:
-				order.removeOrder();
+				order.updateOrder();
 				break;
 			case 3:
-				order.updateOrder();
+				order.removeOrder();
 				break;
 			case 4:
 				order.listOrders(true);
-
 				break;
-			case 5:
-				order.insertOrder();
 		}
 	}
 	
@@ -140,8 +136,8 @@ public class main {
 		System.out.println("Item table, what do you want to do?");
 		System.out.println("");
 		System.out.println("1.Insert a new Item");
-		System.out.println("2.Remove an Item");
-		System.out.println("3.Update an Item");
+		System.out.println("2.Update an Item");
+		System.out.println("3.Remove an Item");
 		System.out.println("4.Look a list of Items");
 		subCode = sn.nextInt();
 		switch(subCode) {
@@ -172,6 +168,12 @@ public class main {
 			case 1:
 				insertCategory();
 				break;
+			case 2:
+				updateCategory();
+				break;
+			case 3:
+				removeCategory();
+				break;
 			case 4:
 				listCategory(true);
 				break;
@@ -180,70 +182,8 @@ public class main {
 	
 	//ORDERLINE METHODS
 	
-	
-	
-	//ITEM METHODS
-	public static void listItems(boolean flagContinue) {
-		System.out.println("\t");
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		List<Item> itemList = daoItem.getT();
-		for(Item item:itemList) {
-			System.out.println(item.toString());
-		}
-		
-		System.out.println("\t");
-		if(flagContinue)
-			askContinue();
-	}
-	
-	public static Item getById(int id) {
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		Item item = daoItem.getById(id);
-		return item;
-	}
-	public static void listItemsWithoutContinue() {
-		System.out.println("\t");
-		ItemDAOImpl daoItem = new ItemDAOImpl(em);
-		List<Item> itemList = daoItem.getT();
-		for(Item item:itemList) {
-			System.out.println(item.toString());
-		}
-		
-		System.out.println("\t");
-	}
-	
-	public static void insertItem() throws InterruptedException {
-		System.out.println("\t\t");
-		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
-		ItemDAOImpl daoItem= new ItemDAOImpl(em);
 
-		
-		System.out.println("Give me a name for the new item");
-		
-		String name = sn.next();
-		
-		System.out.println("What's the unit price for the item: " + name);
-		float price = sn.nextFloat();
-		
-		System.out.println("What category is the item from?");
-		listCategory(false);
-		
-		int id = sn.nextInt();
-		
-		Category category = daoCategory.getById(id);
-		
-		Item item = new Item(name, price, category);
-		
-		daoItem.insert(item);
-		
 
-		System.out.println("Esperando a listar...");
-		Thread.sleep(5000);
-		listItems(false);
-
-		main.askContinue();
-	}
-	
 	public static void listCategory(boolean flagContinue) {
 		System.out.println("\t");
 		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
@@ -268,6 +208,48 @@ public class main {
 		
 		Category category = new Category(name);
 		daoCategory.insert(category);
+	}
+	public static void updateCategory() {
+		System.out.println("What category do you want to update?");
+		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
+		
+		listCategory(false);
+		int id = sn.nextInt();
+		Category category = daoCategory.getById(id);
+		
+		System.out.println("What name do you want for the category?");
+		String name = sn.next();
+		
+		category.setName(name);
+		
+		System.out.println("Do you want to change it? (y/n)");
+		String answer = sn.next();
+		
+		if(answer.equalsIgnoreCase("y")) {
+			daoCategory.update(category);
+		}else {
+			System.out.println("No se actualizará");
+		}
+		
+	}
+	
+	public static void removeCategory() {
+		System.out.println("What category do you want to delete?");
+		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
+		
+		listCategory(false);
+		int id = sn.nextInt();
+		Category category = daoCategory.getById(id);
+		
+		System.out.println("do you want to delete?\n" + category.toString());
+		
+		String answer = sn.next();
+		if(answer.equalsIgnoreCase("y")) {
+			daoCategory.remove(category);
+		}else {
+			System.out.println("No se borrará");
+		}
+		
 	}
 	
 	
