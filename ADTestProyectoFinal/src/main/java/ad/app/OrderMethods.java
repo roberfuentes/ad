@@ -61,6 +61,7 @@ public class OrderMethods {
 		int quantity = 0;
 		
 	
+		listCustomer();
 		System.out.println("Give the id of the customer");
 		
 		//Get customer id
@@ -187,6 +188,37 @@ public class OrderMethods {
 		}
 		
 	}
+	
+	
+	public static void removeOrderLine() {
+		listOrderLine();
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
+		
+		System.out.println("What orderline do you want to delete?");
+		int id = sn.nextInt();
+		OrderLine orderLine = daoOrderLine.getById(id);
+		
+		int orderId = orderLine.getOrder_id().getId();
+		daoOrderLine.remove(orderLine);
+		
+
+		OrdersDAOImpl daoOrder = new OrdersDAOImpl(em);
+		Orders order = daoOrder.getById(orderId);
+		
+		List<OrderLine>orderLines = getListOrderLine();
+				
+		float orderCost = 0;
+		for(OrderLine oLine:orderLines) {
+			if(oLine.getOrder_id().getId() == orderId) {
+				orderCost += oLine.getCost();
+			}
+		}
+		order.setCost(orderCost);
+		daoOrder.update(order);
+		
+		
+	}
+	
 	public static void getlistItems() {
 		ItemDAOImpl daoItem = new ItemDAOImpl(em);
 		List<Item> itemList = daoItem.getT();
@@ -196,8 +228,6 @@ public class OrderMethods {
 		
 
 	}
-	//System.out.println("\t"+order.getId()+". Cost:" + order.getCost() + ", Data:" + order.getOrder_date() + ", FROM:"+order.getCustomer_id());
-
 	
 	public static List<Orders> getListOrders() {
 		OrdersDAOImpl daoOrders= new OrdersDAOImpl(em);
@@ -205,11 +235,30 @@ public class OrderMethods {
 		return orders;
 	}
 	
+	public static void listOrderLine() {
+		List<OrderLine> orderLines = getListOrderLine();
+		for(OrderLine orderLine: orderLines) {
+			System.out.println(orderLine.toString());
+		}
+	}
 
 	public static List<OrderLine> getListOrderLine(){
 		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
 		List<OrderLine> orderLines = daoOrderLine.getT();
 		return orderLines;
+	}
+	
+	public static List<Customer> getListCustomers() {
+		CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
+		List<Customer> listCustomer = daoCustomer.getT();
+		return listCustomer;
+	}
+	
+	public static void listCustomer() {
+		List<Customer> listCustomer = getListCustomers();
+		for(Customer customer:listCustomer) {
+			System.out.println(customer.getId() + ". " + customer.getName());
+		}
 	}
 	
 	

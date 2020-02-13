@@ -81,7 +81,7 @@ public class OrdersDAOImpl implements OrdersDAO{
 	public Orders getById(Integer id) {
 		Orders order= em.find(Orders.class, id);
 		if(order== null) {
-			throw new EntityNotFoundException("Can't find Customer for ID" + id);
+			throw new EntityNotFoundException("Can't find Order for ID" + id);
 		}
 		return order;
 	}
