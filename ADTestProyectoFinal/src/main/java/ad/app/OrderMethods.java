@@ -73,8 +73,6 @@ public class OrderMethods {
 		
 		//Get Item to buy
 		while(true) {
-			//Listar articulos sin continuar
-			//listItems(false);
 			getlistItems();
 			System.out.println("Give me the id of the item");
 			pickIdItem = sn.nextInt();

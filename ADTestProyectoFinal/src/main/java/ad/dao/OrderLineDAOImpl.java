@@ -20,13 +20,27 @@ public class OrderLineDAOImpl implements OrderLineDAO{
 
 	@Override
 	public void insert(OrderLine t) {
-		// TODO Auto-generated method stub
-		
+		try {
+			em.getTransaction().begin();
+			em.persist(t);
+			em.getTransaction().commit();;
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("No se ha guardado el usuario en la base de datos");
+		}		
 	}
 
 	@Override
 	public void update(OrderLine t) {
-		// TODO Auto-generated method stub
+		try {
+			em.getTransaction().begin();
+			em.merge(t);
+			em.getTransaction().commit();
+			System.out.println("The category has been updated");
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("The category couldn't be updated!");
+		}
 		
 	}
 
