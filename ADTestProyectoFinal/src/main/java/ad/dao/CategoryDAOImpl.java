@@ -16,7 +16,14 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 	@Override
 	public void insert(Category t) {
-		
+		try {
+			em.getTransaction().begin();
+			em.persist(t);
+			em.getTransaction().commit();;
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("No se ha guardado el usuario en la base de datos");
+		}
 		
 	}
 
@@ -50,7 +57,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 
 	@Override
 	public List<Category> getT() {
-		List<Category> categoryList = (List<Category>)em.createQuery("FROM cateogry").getResultList(); 
+		List<Category> categoryList = (List<Category>)em.createQuery("FROM Category").getResultList(); 
 		return categoryList;
 	}
 

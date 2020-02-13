@@ -64,7 +64,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public List<Customer> getT() {
-		
 		List<Customer> custList = (List<Customer>) em.createQuery("FROM Customer").getResultList();
 		return custList;
 	}

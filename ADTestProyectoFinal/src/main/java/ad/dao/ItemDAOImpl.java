@@ -19,20 +19,41 @@ public class ItemDAOImpl implements ItemDAO{
 
 	@Override
 	public void insert(Item t) {
+		try {
+			em.getTransaction().begin();
+			em.persist(t);
+			em.getTransaction().commit();;
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("No se ha guardado el usuario en la base de datos");
+		}
 		
 		
 	}
 
 	@Override
 	public void update(Item t) {
-		// TODO Auto-generated method stub
-		
+		try {
+			em.getTransaction().begin();
+			em.merge(t);
+			em.getTransaction().commit();
+			System.out.println("The item has been updated");
+		}catch(Exception e) {
+			em.getTransaction().rollback();
+			System.out.println("The category couldn't be updated!");
+		}		
 	}
 
 	@Override
 	public void remove(Item t) {
-		// TODO Auto-generated method stub
-		
+		try {
+			em.getTransaction().begin();
+			em.remove(t);
+			em.getTransaction().commit();
+			System.out.println("The item has been removed from the database");
+		}catch(Exception e) {
+			em.getTransaction().rollback();		
+		}
 	}
 
 	@Override

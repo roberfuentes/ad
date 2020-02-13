@@ -16,8 +16,7 @@ public class Item {
 		super();
 	}
 
-	public Item(int id, String name, float price, Category category_id) {
-		this.id = id;
+	public Item(String name, float price, Category category_id) {
 		this.name = name;
 		this.price = price;
 		this.category_id = category_id;
@@ -59,6 +58,16 @@ public class Item {
 
 	public void setPrice(float price) {
 		this.price = price;
+	}
+	
+	
+
+	public Category getCategory_id() {
+		return category_id;
+	}
+
+	public void setCategory_id(Category category_id) {
+		this.category_id = category_id;
 	}
 
 	@Override

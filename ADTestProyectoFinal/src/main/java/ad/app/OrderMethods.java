@@ -11,21 +11,24 @@ import ad.Item;
 import ad.OrderLine;
 import ad.Orders;
 import ad.dao.CustomerDAOImpl;
+import ad.dao.DAO;
 import ad.dao.ItemDAOImpl;
+import ad.dao.OrderLineDAOImpl;
 import ad.dao.OrdersDAOImpl;
 import ad.app.CustomerMethods;
 public class OrderMethods {
 	
 	static EntityManager em;
-	static Scanner sn = new Scanner(System.in);
-	CustomerMethods customer = new CustomerMethods(em);
+	private final static Scanner sn = new Scanner(System.in);
+	private final static CustomerMethods customer = new CustomerMethods(em);
+	private final static ItemMethods item = new ItemMethods(em);
 	
 	public OrderMethods(EntityManager em) {
 		this.em = em;
 	}
 
 	
-	public static void listOrders() {
+	public static void listOrders(boolean flagContinue) {
 		System.out.println("\t");
 		OrdersDAOImpl daoOrder = new OrdersDAOImpl(em);
 		List<Orders> orderList = daoOrder.getT();
@@ -33,14 +36,19 @@ public class OrderMethods {
 			System.out.println(order.toString());
 		}
 		System.out.println("\t");
-		main.askContinue();
+		if(flagContinue) {
+			main.askContinue();	
+		}
+		
 		
 	}
 
 	public static void insertOrder() throws InterruptedException {
 		System.out.println("\t\t");
 		//VARIABLES DAO
+		OrdersDAOImpl daoOrder = new OrdersDAOImpl(em);
 		CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
+		OrderLineDAOImpl daoOrderLine = new OrderLineDAOImpl(em);
 		ItemDAOImpl daoItem = new ItemDAOImpl(em);
 		
 		//VARIABLES OBJECT
@@ -65,7 +73,8 @@ public class OrderMethods {
 		//Get Item to buy
 		while(true) {
 			//Listar articulos sin continuar
-			main.listItems(false);
+			//listItems(false);
+			getlistItems();
 			System.out.println("Give me the id of the item");
 			pickIdItem = sn.nextInt();
 			if(pickIdItem==0) {
@@ -80,11 +89,12 @@ public class OrderMethods {
 			orderline = new OrderLine(order, item, item.getPrice(), quantity, item.getPrice()*quantity);
 			total += item.getPrice() * quantity;
 			System.out.println(orderline.toString());
-			System.out.println(total);
+			System.out.println("Subtotal:" +total);
 			em.persist(orderline);
 		}
 		order.setCost(total);
-				
+		
+		daoOrder.insert(order);
 		em.getTransaction().begin();
 		em.getTransaction().commit();
 		
@@ -98,8 +108,25 @@ public class OrderMethods {
 	}
 	
 	public static void updateOrder() {
+		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
 		
+		System.out.println("What order do you want to update?");
+		listOrders(false);
+		int id = sn.nextInt();
+		
+		Orders order = daoOrders.getById(id);
+		
+		System.out.println("Do you want to change the id to other customer?(y/n)");
+		String answer =sn.next();
+		if(answer.equalsIgnoreCase("y")) {
+			System.out.println("Give me the id of the customer you want to change to");
+			int custId = sn.nextInt();
+			order.setId(custId);
+		}
+		daoOrders.update(order);	
 	}
+	
+	
 	public static void lineOrdersOrders() {
 		OrdersDAOImpl daoOrders = new OrdersDAOImpl(em);
 		
@@ -110,6 +137,7 @@ public class OrderMethods {
 		
 		List<Orders> orders = daoOrders.getTFromCustomer(id);
 		
+		System.out.println("");
 		for(Orders order : orders) {
 			if(checkUser==0) {
 				CustomerDAOImpl daoCustomer = new CustomerDAOImpl(em);
@@ -139,6 +167,13 @@ public class OrderMethods {
 			main.askContinue();			
 		}
 		
+	}
+	public static void getlistItems() {
+		ItemDAOImpl daoItem = new ItemDAOImpl(em);
+		List<Item> itemList = daoItem.getT();
+		for(Item item:itemList) {
+			System.out.println(item.toString());
+		}
 	}
 	
 }

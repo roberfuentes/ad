@@ -13,10 +13,12 @@ import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 
 import com.mysql.cj.Query;
 
+import ad.Category;
 import ad.Customer;
 import ad.Item;
 import ad.OrderLine;
 import ad.Orders;
+import ad.dao.CategoryDAOImpl;
 import ad.dao.CustomerDAO;
 import ad.dao.CustomerDAOImpl;
 import ad.dao.DAO;
@@ -53,6 +55,12 @@ public class main {
 					break;
 				case 2:
 					subSwitchOrder();
+					break;
+				case 4:
+					subSwitchItem();
+					break;
+				case 5:
+					subSwitchCategory();
 					break;
 			}
 			
@@ -101,11 +109,11 @@ public class main {
 		System.out.println("Customer table, what do you want to do?");
 		System.out.println("");
 		System.out.println("1.Insert a new order");
-		System.out.println("2.Remove an order");
-		System.out.println("3.Update an order");
+		System.out.println("2.Update an order");
+		System.out.println("3.Remove an order");
 		System.out.println("4.Look a list of orders");
 		System.out.println("5.Look at orders of a customer");
-		System.out.println("6.Look for orders that contain an item");
+		
 		subCode = sn.nextInt();
 		switch(subCode) {
 			case 1:
@@ -118,11 +126,55 @@ public class main {
 				order.updateOrder();
 				break;
 			case 4:
-				order.listOrders();
+				order.listOrders(true);
 
 				break;
 			case 5:
 				order.insertOrder();
+		}
+	}
+	
+	public static void subSwitchItem() throws InterruptedException {
+		int subCode = -1;
+		ItemMethods item = new ItemMethods(em);
+		System.out.println("Item table, what do you want to do?");
+		System.out.println("");
+		System.out.println("1.Insert a new Item");
+		System.out.println("2.Remove an Item");
+		System.out.println("3.Update an Item");
+		System.out.println("4.Look a list of Items");
+		subCode = sn.nextInt();
+		switch(subCode) {
+			case 1:
+				item.insertItem();
+				break;
+			case 2:
+				item.updateItem();
+				break;
+			case 3:
+				item.removeItem();
+			case 4:
+				item.listItems(true);
+				break;
+		}
+	}
+	public static void subSwitchCategory() throws InterruptedException {
+		int subCode = -1;
+		OrderMethods order = new OrderMethods(em);
+		System.out.println("Category table, what do you want to do?");
+		System.out.println("");
+		System.out.println("1.Insert a new category");
+		System.out.println("2.Update an order");
+		System.out.println("3.Remove an order");
+		System.out.println("4.Look a list of category");
+		subCode = sn.nextInt();
+		switch(subCode) {
+			case 1:
+				insertCategory();
+				break;
+			case 4:
+				listCategory(true);
+				break;
 		}
 	}
 	
@@ -158,6 +210,64 @@ public class main {
 		}
 		
 		System.out.println("\t");
+	}
+	
+	public static void insertItem() throws InterruptedException {
+		System.out.println("\t\t");
+		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
+		ItemDAOImpl daoItem= new ItemDAOImpl(em);
+
+		
+		System.out.println("Give me a name for the new item");
+		
+		String name = sn.next();
+		
+		System.out.println("What's the unit price for the item: " + name);
+		float price = sn.nextFloat();
+		
+		System.out.println("What category is the item from?");
+		listCategory(false);
+		
+		int id = sn.nextInt();
+		
+		Category category = daoCategory.getById(id);
+		
+		Item item = new Item(name, price, category);
+		
+		daoItem.insert(item);
+		
+
+		System.out.println("Esperando a listar...");
+		Thread.sleep(5000);
+		listItems(false);
+
+		main.askContinue();
+	}
+	
+	public static void listCategory(boolean flagContinue) {
+		System.out.println("\t");
+		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
+		List<Category> categoryList = daoCategory.getT();
+		for(Category category:categoryList) {
+			System.out.println(category.getId() + ". " + category.getName());
+		}
+		System.out.println("\t");
+		
+		if(flagContinue)
+			main.askContinue();
+	}
+	
+	public static void insertCategory() {
+		System.out.println("\t\t");
+		CategoryDAOImpl daoCategory = new CategoryDAOImpl(em);
+		
+		System.out.println("Give me a name for the new category");
+		
+		String name = sn.next();
+		
+		
+		Category category = new Category(name);
+		daoCategory.insert(category);
 	}
 	
 	
